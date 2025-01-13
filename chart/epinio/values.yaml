@@ -44,7 +44,7 @@ server:
   serviceAccount:
     annotations: {}
   # Storage size for epinio server
-  storageSize: 4Gi
+  storageSize: 2Gi
   {{/*END Marsified with serviceAccount flavor!*/}}
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1

@@ -411,7 +411,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.server.storageSize}}
+      storage: {{ default .Values.server.storageSize "2Gi" }}
 ---
 apiVersion: v1
 kind: Service
