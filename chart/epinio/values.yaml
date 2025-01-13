@@ -243,7 +243,7 @@ global:
   dex:
     enabled: true
   # The domain that will be used to access the epinio API server and the registry
-  domain: "test.com"
+  domain: ""
   # Connection details for the container registry.
   # Skip if containerregistry.enabled is true
   registryURL: ""
