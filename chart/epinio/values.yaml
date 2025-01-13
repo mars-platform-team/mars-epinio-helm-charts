@@ -43,6 +43,8 @@ server:
   {{/*Marsified with serviceAccount flavor!*/}}
   serviceAccount:
     annotations: {}
+  # Storage size for epinio server
+  storageSize: 4Gi
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1
   # Increase this value to instruct the API server to produce more debug output
