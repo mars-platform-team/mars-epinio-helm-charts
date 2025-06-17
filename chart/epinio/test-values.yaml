@@ -1,0 +1,58 @@
+# use this file to locally run the helm template command
+# helm template . -f test-values.yaml -n machina-sbx --dry-run --debug
+
+global:
+    registryURL: platypus.artifactory.mars.pcf-maximus.com
+    domain: "cp.mars-sandbox.com"
+    customTlsIssuer: platypus-ca
+    registryNamespace: "mars-customer"
+    cattle:
+        systemDefaultRegistry: platypus.artifactory.mars.pcf-maximus.com
+    url: "rancher.mars-sandbox.com"
+server:
+    storageSize: "12Gi"
+    serviceAccount:
+        annotations:
+            eks.amazonaws.com/role-arn: "arn:aws:iam::12345678910:role/mars-customer-epinio-role"
+    stagingServiceAccountName: "epinio-stage"
+    resources:
+        limits:
+            cpu: 1500m
+            memory: 4000Mi
+        requests:
+            cpu: 1000m
+            memory: 4000Mi
+
+appChart:
+  default: https://artifactory.mars.pcf-maximus.com/artifactory/platypus-helm-local/mars-app-2.3.0.tgz
+
+nodeSelector:
+    nodePool: epinio-infra
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: auth.mars-sandbox.com
+      paths:
+        - path: /
+          pathType: Prefix 
+
+kubed:
+    operator:
+    registry: platypus.artifactory.mars.pcf-maximus.com/rancher
+    nodeSelector:
+    nodePool: epinio-infra
+dex:
+    image:
+    repository: platypus.artifactory.mars.pcf-maximus.com/dexidp/dex
+minio:
+    nodeSelector:
+    nodePool: epinio-infra
+
+s3:
+    bucket: "mars-customer-epinios3"
+epinioUI:
+    allowedOrigins: ""
+rancher:
+    url: "rancher.mars-sandbox.com"

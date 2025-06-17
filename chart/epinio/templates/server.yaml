@@ -368,6 +368,8 @@ spec:
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
             {{- end }}
+          resources:
+            {{- toYaml .Values.server.resources | nindent 12 }}
           image: "{{ default .Values.image.epinio.registry (include "registry-url" .) }}{{ .Values.image.epinio.repository }}:{{ default .Chart.AppVersion .Values.image.epinio.tag }}"
           livenessProbe:
             httpGet:
@@ -411,7 +413,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ default .Values.server.storageSize "2Gi" }}
+      storage: {{ default "2Gi" .Values.server.storageSize }}
 ---
 apiVersion: v1
 kind: Service
