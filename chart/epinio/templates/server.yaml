@@ -270,6 +270,8 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      resources:
+        {{- toYaml .Values.server.resources | nindent 12 }}
       {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
@@ -368,8 +370,6 @@ spec:
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
             {{- end }}
-          resources:
-            {{- toYaml .Values.server.resources | nindent 12 }}
           image: "{{ default .Values.image.epinio.registry (include "registry-url" .) }}{{ .Values.image.epinio.repository }}:{{ default .Chart.AppVersion .Values.image.epinio.tag }}"
           livenessProbe:
             httpGet:
@@ -397,11 +397,49 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+{{- if .Values.server.cleanup.enabled }}
+        - name: cleanup-shared-storage
+          image: {{ .Values.server.cleanup.image | default "busybox" }}
+          imagePullPolicy: Always
+          command:
+            - /bin/sh
+          args:
+            - -c
+            - |
+              while true; do
+                echo "[DEBUG] Checking disk usage at $(date)";
+                usage=$(df -P /shared | awk 'NR==2 {print $5}' | tr -d '%');
+                echo "[DEBUG] Current disk usage: $usage%";
+                if [ "$usage" -gt 75 ]; then
+                  echo "[DEBUG] Usage above threshold (75%)";
+                  oldest=$(ls -1t /shared/multipart-* 2>/dev/null | tail -1);
+                  echo "[DEBUG] Oldest file candidate: $oldest";
+                  if [ -n "$oldest" ]; then
+                    echo "Cleaning Up: Disk usage $usage% | Deleting $oldest; ";
+                    rm -f "$oldest";
+                    echo "[DEBUG] Deleted $oldest";
+                  else
+                    echo "[DEBUG] No files to delete.";
+                  fi
+                fi
+                sleep 60;
+              done
+          resources: {}
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /shared
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          securityContext:
+            privileged: false
+            runAsNonRoot: false
+            readOnlyRootFilesystem: false
+            allowPrivilegeEscalation: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 3000
-
+{{- end }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

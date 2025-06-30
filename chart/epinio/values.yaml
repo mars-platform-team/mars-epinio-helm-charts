@@ -43,6 +43,7 @@ server:
   # START Marsified with serviceAccount flavor!
   serviceAccount:
     annotations: {}
+  resources: {}
   # Storage size for epinio server
   storageSize: 2Gi
   # END Marsified with serviceAccount flavor!
@@ -62,7 +63,10 @@ server:
     cpu: ""
     memory: ""
     disk: "1Gi"
-  resources: {}  
+  cleanup:
+    enabled: true
+    image: busybox
+
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
