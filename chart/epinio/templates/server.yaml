@@ -270,8 +270,6 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      resources:
-        {{- toYaml .Values.server.resources | nindent 12 }}
       {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
@@ -371,6 +369,8 @@ spec:
             {{- toYaml .Values.extraEnv | nindent 12 -}}
             {{- end }}
           image: "{{ default .Values.image.epinio.registry (include "registry-url" .) }}{{ .Values.image.epinio.repository }}:{{ default .Chart.AppVersion .Values.image.epinio.tag }}"
+          resources:
+            {{- toYaml .Values.server.resources | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /ready
