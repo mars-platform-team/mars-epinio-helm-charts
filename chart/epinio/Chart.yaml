@@ -42,4 +42,4 @@ keywords:
 name: mars-epinio
 sources:
 - https://github.com/mars-platform-team/mars-epinio-helm-charts
-version: "1.11.1-11"
+version: "1.11.1-13"
