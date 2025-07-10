@@ -51,6 +51,13 @@ image:
 appChart:
   default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
 server:
+  # START Marsified with serviceAccount flavor!
+  serviceAccount:
+    annotations: {}
+  resources: {}
+  # Storage size for epinio server
+  storageSize: 2Gi
+  # END Marsified with serviceAccount flavor!
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1
   # Increase this value to instruct the API server to produce more debug output
@@ -67,6 +74,12 @@ server:
     cpu: ""
     memory: ""
     disk: "1Gi"
+
+  cleanup:
+    enabled: true
+    image: busybox
+
+
   resources: {}
   # limits:
   #   cpu: 100m
@@ -82,6 +95,7 @@ server:
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
+
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
@@ -310,3 +324,7 @@ rancher:
   # The uri comes from global.cattle.url (provided by rancher), or if that's missing this value (rancher.url)
   # This supersedes server.accessControlAllowOrigin
   url: ""
+
+
+# Marsified with nodeSelector flavor!
+nodeSelector: {}
