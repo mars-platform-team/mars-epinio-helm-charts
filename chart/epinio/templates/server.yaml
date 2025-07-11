@@ -270,19 +270,6 @@ spec:
         {{- end }}
       name: epinio-server
     spec:
-      {{/*Marsified with nodeSelector flavor!*/}}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       serviceAccountName: epinio-server
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
