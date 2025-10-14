@@ -11,11 +11,11 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: ""
+    tag: v1.13.0
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.11.0-0.0.2
+    tag: v1.13.0
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
@@ -56,13 +56,14 @@ server:
   ingressClassName: ""
   # Disable tracking of the Epinio and Kubernetes cluster version
   disableTracking: false
-  # Name of the Service Account used by the staging job
-  stagingServiceAccountName: ""
   # Resources to allocate to the staging job. Default: unbounded cpu/memory, and 1Gi disk
-  stagingResourceRequests:
-    cpu: ""
-    memory: ""
-    disk: "1Gi"
+  stagingWorkloads:
+    resources:
+      requests:
+        cpu: ""
+        memory: ""
+        disk: "1Gi"
+    serviceAccountName: ""
   cleanup:
     enabled: true
     image: busybox
