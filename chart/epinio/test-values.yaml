@@ -26,9 +26,6 @@ server:
 appChart:
   default: https://artifactory.mars.pcf-maximus.com/artifactory/platypus-helm-local/mars-app-2.3.0.tgz
 
-nodeSelector:
-    nodePool: epinio-infra
-
 ingress:
   enabled: true
   className: nginx

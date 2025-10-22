@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
           fetch-depth: 0
@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: chrisdickinson/setup-yq@latest     # Install yq
-      - uses: WyriHaximus/github-action-helm3@v3 # Install helm
+      - uses: WyriHaximus/github-action-helm3@v4 # Install helm
       - name: Docker image tag
         id: get-tag
         run: |
@@ -38,7 +38,7 @@ jobs:
           echo "::set-output name=tag::$latestRelease"
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           context: images/.

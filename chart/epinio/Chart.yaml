@@ -2,7 +2,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/prerelease: "false"
 apiVersion: v2
-appVersion: v1.11.0
+appVersion: v1.13.0
 dependencies:
 - condition: global.dex.enabled
   name: dex
@@ -24,22 +24,22 @@ dependencies:
   version: v0.13.2
 - condition: s3gw.enabled, global.s3gw.enabled
   name: s3gw
-  repository: https://aquarist-labs.github.io/s3gw-charts
+  repository: https://s3gw-tech.github.io/s3gw-charts
   tags:
   - s3gw
   version: 0.14.0
-description: |
-  Marsified version of epinio helm chart. Includes: 
-  -> nodeSelectors to deployment yamls. 
-  -> serviceAccount to epinio server.
-  -> manage epinio server storage size thru values.yaml.
-
+description: Epinio deploys Kubernetes applications directly from source code in one step.
 home: https://github.com/epinio/epinio
 icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
 keywords:
 - epinio
 - paas
-name: mars-epinio
+maintainers:
+- email: epinio@krum.io
+  name: Krumware
+- email: epinio@epinio.io
+  name: SUSE
+name: epinio
 sources:
-- https://github.com/mars-platform-team/mars-epinio-helm-charts
-version: "1.11.1-13"
+- https://github.com/epinio/epinio
+version: 1.13.0

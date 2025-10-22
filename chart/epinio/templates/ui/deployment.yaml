@@ -20,16 +20,15 @@ spec:
         app.kubernetes.io/name: epinio-ui
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      {{/*Marsified with nodeSelector flavor!*/}}
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.epinioUI.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.epinioUI.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.epinioUI.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

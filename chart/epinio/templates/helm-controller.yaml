@@ -1,3 +1,4 @@
+{{- if .Values.helmController.enabled }}
 {{- if not (.Capabilities.APIVersions.Has "helm.cattle.io/v1") -}}
 
 # RBAC - ServiceAccount
@@ -43,16 +44,15 @@ spec:
       labels:
         app: helm-controller
     spec:
-      {{/*Marsified with nodeSelector flavor!*/}}
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.helmController.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.helmController.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.helmController.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -190,4 +190,5 @@ status:
   conditions: []
   storedVersions: []
 
+{{- end -}}
 {{- end -}}
