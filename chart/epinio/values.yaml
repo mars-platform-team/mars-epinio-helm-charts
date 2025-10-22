@@ -6,6 +6,16 @@
 # __SUPERCEDED__ by `global.tlsIssuerMail`.
 #
 # Kept for backward compatibility, here and in the templates.
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "epinio-server"
 email: "epinio@suse.com"
 image:
   epinio:
@@ -39,13 +49,11 @@ image:
     groupid: 1000
 appChart:
   default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
-server:
   # START Marsified with serviceAccount flavor!
-  serviceAccount:
-    annotations: {}
+server:
   resources: {}
   # Storage size for epinio server
-  storageSize: 2Gi
+  # storageSize: 2Gi
   # END Marsified with serviceAccount flavor!
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1
@@ -62,7 +70,8 @@ server:
       requests:
         cpu: ""
         memory: ""
-        disk: "1Gi"
+    storage:
+      disk: "1Gi"
     serviceAccountName: ""
   cleanup:
     enabled: true
